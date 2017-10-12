@@ -6,6 +6,7 @@
 
 package service;
 
+import entities.ResponseApi;
 import entities.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -37,8 +38,14 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Usuario entity) {
-        super.create(entity);
+    @Produces({"application/json"})
+    public ResponseApi create(Usuario entity) {
+        Usuario u=super.find(entity.getIdUsuario());
+        if(u==null){
+            return super.create(entity);
+        }else{
+            return new ResponseApi(203, "Usuario ya existe");
+        }
     }
 
     @PUT
