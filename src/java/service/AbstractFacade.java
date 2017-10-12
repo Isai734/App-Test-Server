@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package service;
 
+import entities.ResponseApi;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.EntityManager;
  * @author isai.castro
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -22,8 +24,9 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
+    public ResponseApi create(T entity) {
         getEntityManager().persist(entity);
+        return new ResponseApi(200, "Creado correctamente");
     }
 
     public void edit(T entity) {
@@ -60,5 +63,5 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
 }

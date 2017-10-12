@@ -7,6 +7,7 @@
 package service;
 
 import entities.Nivel;
+import entities.ResponseApi;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,8 +38,8 @@ public class NivelFacadeREST extends AbstractFacade<Nivel> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Nivel entity) {
-        super.create(entity);
+    public ResponseApi create(Nivel entity) {
+        return super.create(entity);
     }
 
     @PUT

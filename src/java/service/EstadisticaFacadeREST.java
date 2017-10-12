@@ -7,6 +7,7 @@
 package service;
 
 import entities.Estadistica;
+import entities.ResponseApi;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,8 +38,8 @@ public class EstadisticaFacadeREST extends AbstractFacade<Estadistica> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Estadistica entity) {
-        super.create(entity);
+    public ResponseApi create(Estadistica entity) {
+        return super.create(entity);
     }
 
     @PUT

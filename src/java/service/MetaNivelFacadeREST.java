@@ -7,6 +7,7 @@
 package service;
 
 import entities.MetaNivel;
+import entities.ResponseApi;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,8 +38,8 @@ public class MetaNivelFacadeREST extends AbstractFacade<MetaNivel> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(MetaNivel entity) {
-        super.create(entity);
+    public ResponseApi create(MetaNivel entity) {
+         return super.create(entity);
     }
 
     @PUT

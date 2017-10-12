@@ -6,6 +6,7 @@
 
 package service;
 
+import entities.ResponseApi;
 import entities.Variantes;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -37,8 +38,8 @@ public class VariantesFacadeREST extends AbstractFacade<Variantes> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Variantes entity) {
-        super.create(entity);
+    public ResponseApi create(Variantes entity) {
+        return super.create(entity);
     }
 
     @PUT

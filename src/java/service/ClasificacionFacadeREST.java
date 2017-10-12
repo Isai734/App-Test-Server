@@ -7,6 +7,7 @@
 package service;
 
 import entities.Clasificacion;
+import entities.ResponseApi;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,8 +38,8 @@ public class ClasificacionFacadeREST extends AbstractFacade<Clasificacion> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Clasificacion entity) {
-        super.create(entity);
+    public ResponseApi create(Clasificacion entity) {
+        return super.create(entity);
     }
 
     @PUT

@@ -7,6 +7,7 @@
 package service;
 
 import entities.Palabra;
+import entities.ResponseApi;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,8 +38,8 @@ public class PalabraFacadeREST extends AbstractFacade<Palabra> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(Palabra entity) {
-        super.create(entity);
+    public ResponseApi create(Palabra entity) {
+        return super.create(entity);
     }
 
     @PUT

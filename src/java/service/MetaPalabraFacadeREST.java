@@ -7,6 +7,7 @@
 package service;
 
 import entities.MetaPalabra;
+import entities.ResponseApi;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,8 +38,8 @@ public class MetaPalabraFacadeREST extends AbstractFacade<MetaPalabra> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    public void create(MetaPalabra entity) {
-        super.create(entity);
+    public ResponseApi create(MetaPalabra entity) {
+        return super.create(entity);
     }
 
     @PUT
