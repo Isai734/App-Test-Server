@@ -26,7 +26,7 @@ import javax.ws.rs.Produces;
  * @author isai.castro
  */
 @Stateless
-@Path("usuario")
+@Path("entities.usuario")
 public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     @PersistenceContext(unitName = "app_test_serverPU")
     private EntityManager em;
@@ -38,46 +38,40 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     @POST
     @Override
     @Consumes({"application/xml", "application/json"})
-    @Produces({"application/json"})
     public ResponseApi create(Usuario entity) {
-        Usuario u=super.find(entity.getIdUsuario());
-        if(u==null){
-            return super.create(entity);
-        }else{
-            return new ResponseApi(203, "Usuario ya existe");
-        }
+        return super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
-    public void edit(@PathParam("id") Integer id, Usuario entity) {
+    public void edit(@PathParam("id") String id, Usuario entity) {
         super.edit(entity);
     }
 
     @DELETE
     @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
+    public void remove(@PathParam("id") String id) {
         super.remove(super.find(id));
     }
 
     @GET
     @Path("{id}")
-    @Produces({"application/json"})
-    public Usuario find(@PathParam("id") Integer id) {
+    @Produces({"application/xml", "application/json"})
+    public Usuario find(@PathParam("id") String id) {
         return super.find(id);
     }
 
     @GET
     @Override
-    @Produces({"application/json"})
+    @Produces({"application/xml", "application/json"})
     public List<Usuario> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
-    @Produces({"application/json"})
+    @Produces({"application/xml", "application/json"})
     public List<Usuario> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }

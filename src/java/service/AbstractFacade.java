@@ -9,6 +9,7 @@ import entities.ResponseApi;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -27,6 +28,15 @@ public abstract class AbstractFacade<T> {
     public ResponseApi create(T entity) {
         getEntityManager().persist(entity);
         return new ResponseApi(200, "Creado correctamente");
+    }
+
+    public Response uploadFile(Object uploadedInputStream, Object fileDetail) {
+        // check if all form parameters are provided
+        if (uploadedInputStream == null || fileDetail == null) {
+            return Response.status(400).entity("Invalid form data").build();
+        } else {
+            return Response.status(200).entity("Archivo guardado ").build();
+        }
     }
 
     public void edit(T entity) {
