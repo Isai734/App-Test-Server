@@ -39,7 +39,7 @@ public class MetaNivelFacadeREST extends AbstractFacade<MetaNivel> {
     @Override
     @Consumes({"application/xml", "application/json"})
     public ResponseApi create(MetaNivel entity) {
-         return super.create(entity);
+        return super.create(entity);
     }
 
     @PUT

@@ -36,27 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Palabra.findAll", query = "SELECT p FROM Palabra p"),
     @NamedQuery(name = "Palabra.findByIdPalabra", query = "SELECT p FROM Palabra p WHERE p.idPalabra = :idPalabra"),
     @NamedQuery(name = "Palabra.findByPalabraespaniol", query = "SELECT p FROM Palabra p WHERE p.palabraespaniol = :palabraespaniol"),
-    @NamedQuery(name = "Palabra.findByPalabratlapaneco", query = "SELECT p FROM Palabra p WHERE p.palabratlapaneco = :palabratlapaneco")})
+    @NamedQuery(name = "Palabra.findByPalabratlapaneco", query = "SELECT p FROM Palabra p WHERE p.palabratlapaneco = :palabratlapaneco"),
+    @NamedQuery(name = "Palabra.findByImagename", query = "SELECT p FROM Palabra p WHERE p.imagename = :imagename"),
+    @NamedQuery(name = "Palabra.findBySoundname", query = "SELECT p FROM Palabra p WHERE p.soundname = :soundname")})
 public class Palabra implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "Imagen")
-    private byte[] imagen;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "Sonido")
-    private byte[] sonido;
-    @Size(max = 45)
-    @Column(name = "Image_name")
-    private String imagename;
-    @Size(max = 45)
-    @Column(name = "Sound_name")
-    private String soundname;
-    @JoinColumn(name = "usuario_Email", referencedColumnName = "Email")
-    @ManyToOne(optional = false)
-    private Usuario usuarioEmail;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -70,9 +53,25 @@ public class Palabra implements Serializable {
     private String palabraespaniol;
     @Basic(optional = false)
     @NotNull
+    @Lob
+    @Column(name = "Imagen")
+    private byte[] imagen;
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "Palabra_tlapaneco")
     private String palabratlapaneco;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "Sonido")
+    private byte[] sonido;
+    @Size(max = 45)
+    @Column(name = "Image_name")
+    private String imagename;
+    @Size(max = 45)
+    @Column(name = "Sound_name")
+    private String soundname;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "palabraidPalabra")
     private Collection<MetaPalabra> metaPalabraCollection;
     @JoinColumn(name = "Clasificacion_idClasificacion", referencedColumnName = "idClasificacion")
@@ -81,9 +80,9 @@ public class Palabra implements Serializable {
     @JoinColumn(name = "Nivel_idNivel", referencedColumnName = "idNivel")
     @ManyToOne(optional = false)
     private Nivel nivelidNivel;
-    @JoinColumn(name = "usuario_idUsuario", referencedColumnName = "idUsuario")
+    @JoinColumn(name = "usuario_Email", referencedColumnName = "Email")
     @ManyToOne(optional = false)
-    private Usuario usuarioidUsuario;
+    private Usuario usuarioEmail;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "palabraidPalabra")
     private Collection<Variantes> variantesCollection;
 
@@ -94,11 +93,11 @@ public class Palabra implements Serializable {
         this.idPalabra = idPalabra;
     }
 
-    public Palabra(Integer idPalabra, String palabraespaniol, String palabratlapaneco, byte[] imagen, byte[] sonido) {
+    public Palabra(Integer idPalabra, String palabraespaniol, byte[] imagen, String palabratlapaneco, byte[] sonido) {
         this.idPalabra = idPalabra;
         this.palabraespaniol = palabraespaniol;
-        this.palabratlapaneco = palabratlapaneco;
         this.imagen = imagen;
+        this.palabratlapaneco = palabratlapaneco;
         this.sonido = sonido;
     }
 
@@ -118,6 +117,14 @@ public class Palabra implements Serializable {
         this.palabraespaniol = palabraespaniol;
     }
 
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
+
     public String getPalabratlapaneco() {
         return palabratlapaneco;
     }
@@ -126,6 +133,29 @@ public class Palabra implements Serializable {
         this.palabratlapaneco = palabratlapaneco;
     }
 
+    public byte[] getSonido() {
+        return sonido;
+    }
+
+    public void setSonido(byte[] sonido) {
+        this.sonido = sonido;
+    }
+
+    public String getImagename() {
+        return imagename;
+    }
+
+    public void setImagename(String imagename) {
+        this.imagename = imagename;
+    }
+
+    public String getSoundname() {
+        return soundname;
+    }
+
+    public void setSoundname(String soundname) {
+        this.soundname = soundname;
+    }
 
     @XmlTransient
     public Collection<MetaPalabra> getMetaPalabraCollection() {
@@ -152,12 +182,12 @@ public class Palabra implements Serializable {
         this.nivelidNivel = nivelidNivel;
     }
 
-    public Usuario getUsuarioidUsuario() {
-        return usuarioidUsuario;
+    public Usuario getUsuarioEmail() {
+        return usuarioEmail;
     }
 
-    public void setUsuarioidUsuario(Usuario usuarioidUsuario) {
-        this.usuarioidUsuario = usuarioidUsuario;
+    public void setUsuarioEmail(Usuario usuarioEmail) {
+        this.usuarioEmail = usuarioEmail;
     }
 
     @XmlTransient
@@ -192,46 +222,6 @@ public class Palabra implements Serializable {
     @Override
     public String toString() {
         return "entities.Palabra[ idPalabra=" + idPalabra + " ]";
-    }
-
-    public byte[] getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
-    }
-
-    public byte[] getSonido() {
-        return sonido;
-    }
-
-    public void setSonido(byte[] sonido) {
-        this.sonido = sonido;
-    }
-
-    public String getImagename() {
-        return imagename;
-    }
-
-    public void setImagename(String imagename) {
-        this.imagename = imagename;
-    }
-
-    public String getSoundname() {
-        return soundname;
-    }
-
-    public void setSoundname(String soundname) {
-        this.soundname = soundname;
-    }
-
-    public Usuario getUsuarioEmail() {
-        return usuarioEmail;
-    }
-
-    public void setUsuarioEmail(Usuario usuarioEmail) {
-        this.usuarioEmail = usuarioEmail;
     }
     
 }

@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,34 +31,41 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
-    @NamedQuery(name = "Usuario.findByIdUsuario", query = "SELECT u FROM Usuario u WHERE u.idUsuario = :idUsuario"),
-    @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre"),
     @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
+    @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre"),
     @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password")})
 public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "Email")
     private String email;
     @Size(max = 45)
     @Column(name = "Nombre")
     private String nombre;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 45)
     @Column(name = "Password")
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioidUsuario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioEmail")
     private Collection<Palabra> palabraCollection;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
-    private Estadistica estadistica;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioEmail")
+    private Collection<Estadistica> estadisticaCollection;
 
     public Usuario() {
     }
 
     public Usuario(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -69,14 +75,6 @@ public class Usuario implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
@@ -96,12 +94,13 @@ public class Usuario implements Serializable {
         this.palabraCollection = palabraCollection;
     }
 
-    public Estadistica getEstadistica() {
-        return estadistica;
+    @XmlTransient
+    public Collection<Estadistica> getEstadisticaCollection() {
+        return estadisticaCollection;
     }
 
-    public void setEstadistica(Estadistica estadistica) {
-        this.estadistica = estadistica;
+    public void setEstadisticaCollection(Collection<Estadistica> estadisticaCollection) {
+        this.estadisticaCollection = estadisticaCollection;
     }
 
     @Override
@@ -126,7 +125,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario[ email=" + email + " ]";
+        return "entities.Usuario[ email=" + email + " ]";
     }
     
 }

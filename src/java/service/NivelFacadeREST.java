@@ -39,7 +39,7 @@ public class NivelFacadeREST extends AbstractFacade<Nivel> {
     @Override
     @Consumes({"application/xml", "application/json"})
     public ResponseApi create(Nivel entity) {
-        return super.create(entity);
+        return  super.create(entity);
     }
 
     @PUT
