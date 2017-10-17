@@ -38,6 +38,25 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Palabra.findByPalabraespaniol", query = "SELECT p FROM Palabra p WHERE p.palabraespaniol = :palabraespaniol"),
     @NamedQuery(name = "Palabra.findByPalabratlapaneco", query = "SELECT p FROM Palabra p WHERE p.palabratlapaneco = :palabratlapaneco")})
 public class Palabra implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "Imagen")
+    private byte[] imagen;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "Sonido")
+    private byte[] sonido;
+    @Size(max = 45)
+    @Column(name = "Image_name")
+    private String imagename;
+    @Size(max = 45)
+    @Column(name = "Sound_name")
+    private String soundname;
+    @JoinColumn(name = "usuario_Email", referencedColumnName = "Email")
+    @ManyToOne(optional = false)
+    private Usuario usuarioEmail;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -54,16 +73,6 @@ public class Palabra implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "Palabra_tlapaneco")
     private String palabratlapaneco;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "Imagen")
-    private byte[] imagen;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(name = "Sonido")
-    private byte[] sonido;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "palabraidPalabra")
     private Collection<MetaPalabra> metaPalabraCollection;
     @JoinColumn(name = "Clasificacion_idClasificacion", referencedColumnName = "idClasificacion")
@@ -117,21 +126,6 @@ public class Palabra implements Serializable {
         this.palabratlapaneco = palabratlapaneco;
     }
 
-    public byte[] getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(byte[] imagen) {
-        this.imagen = imagen;
-    }
-
-    public byte[] getSonido() {
-        return sonido;
-    }
-
-    public void setSonido(byte[] sonido) {
-        this.sonido = sonido;
-    }
 
     @XmlTransient
     public Collection<MetaPalabra> getMetaPalabraCollection() {
@@ -198,6 +192,46 @@ public class Palabra implements Serializable {
     @Override
     public String toString() {
         return "entities.Palabra[ idPalabra=" + idPalabra + " ]";
+    }
+
+    public byte[] getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
+    }
+
+    public byte[] getSonido() {
+        return sonido;
+    }
+
+    public void setSonido(byte[] sonido) {
+        this.sonido = sonido;
+    }
+
+    public String getImagename() {
+        return imagename;
+    }
+
+    public void setImagename(String imagename) {
+        this.imagename = imagename;
+    }
+
+    public String getSoundname() {
+        return soundname;
+    }
+
+    public void setSoundname(String soundname) {
+        this.soundname = soundname;
+    }
+
+    public Usuario getUsuarioEmail() {
+        return usuarioEmail;
+    }
+
+    public void setUsuarioEmail(Usuario usuarioEmail) {
+        this.usuarioEmail = usuarioEmail;
     }
     
 }
